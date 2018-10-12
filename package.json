@@ -4,14 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start": "node server.js",
     "start:prod": "node server.js",
     "start:dev": "concurrently \"lsof -ti:3001 | xargs kill\" \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "seed": "node scripts/seedDB.js",
     "install": "cd client && yarn install",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "cd client && yarn install --only=dev && yarn install && yarn run build"
   },
   "author": "",
   "license": "ISC",
@@ -35,5 +35,8 @@
     "react-swipeable-views": "^0.13.0",
     "sequelize": "^4.39.0",
     "shortid": "^2.2.13"
+  },
+  "engines": {
+    "node": "8.11.3"
   }
 }
