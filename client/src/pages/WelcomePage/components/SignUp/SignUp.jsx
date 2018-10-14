@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,7 +10,6 @@ import TextField from '@material-ui/core/TextField';
 export default class SignUp extends React.Component {
   state = {
     orgName: '',
-    // orgEmail: '',
     orgPhoneNum: '',
     streetAddress: '',
     city: '',
@@ -172,13 +171,15 @@ export default class SignUp extends React.Component {
                   onChange={this.handleChange}
                   value={this.state.zipCode}
                   id="orgSignup-zipCode"
+                  type="number"
                   name="zipCode"
-                  
+                  onInput={(e)=>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,5)
+                  }}
                   label="Zip"
                   margin="normal"
                   variant="outlined"
                 />
-         
                 
                 <DateTimeSelector
                   //onChange={this.handleChange}

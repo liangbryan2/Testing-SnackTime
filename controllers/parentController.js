@@ -58,7 +58,6 @@ updateParentInfo: function(req,res){
     db.Parent.update({
         name: req.body.name,
         address: req.body.address,
-        email: req.body.email,
         phone: req.body.phone
     },{
         where:{
@@ -97,27 +96,21 @@ updatePickupInfo: function(req,res){
 
 getChildOrg: function(req,res){
     db.Organization.findOne({
-        include : [{
-            model: Student,
-            as :'Student'
-        }],
-        where:
-        {
-            '$Student.id$' :req.params.studentId
+        where:{
+            id:req.params.orgId
         }
     })
-    .then(dbPickup => res.json(dbPickup))
+    .then(dbOrg => res.json(dbOrg))
     .catch(err => res.status(422).json(err));
 },
 
 getOrgStaff: function(req,res){
     db.Staff.findAll({
-        inlcude:[db.Organization],
         where:{
             OrganizationId: req.params.orgId
         }
     })
-    .then(dbPickup => res.json(dbPickup))
+    .then(dbStaff => res.json(dbStaff))
     .catch(err => res.status(422).json(err));
 },
 

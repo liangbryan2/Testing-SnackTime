@@ -1,21 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
+// import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import HeaderBar from '../../../../components/HeaderBar/HeaderBar';
 // import Label from '@material-ui/core/Label';
-import DateTimeSelector from '../../../../components/DateTimeSelector/DateTimeSelector'
-import { Redirect } from "react-router-dom";
-import Auth from '../../../../utils/Auth'
+// import DateTimeSelector from '../../../../components/DateTimeSelector/DateTimeSelector'
+// import { Redirect } from "react-router-dom";
+import Auth from '../../../../utils/Auth';
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
 
 const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+  },
+  submitbutton:{
+    marginTop:25,
+    height:10
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -41,7 +48,8 @@ class AddHighlight extends React.Component {
     role:this.props.location.state.role,
     reportId: '',
     multiline: 'Controlled',
-    noteExists:false
+    noteExists:false,
+    snackbarMessage:""
   };
   componentWillMount() {
     console.log(this.state.id);
@@ -71,11 +79,20 @@ class AddHighlight extends React.Component {
     .then(resp=>{
       console.log(resp);
       if(resp !== "No Notes"){
-        
         this.setState({highlight:resp.highlight, noteExists:true, reportId: resp.id})
       }
     })
   }
+
+  handleClickSnackbar = () => {
+    this.setState({ open: true });
+  };
+  handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ open: false });
+  };
 
   postHighlight =() => {
     console.log("In post highlight")
@@ -134,10 +151,15 @@ class AddHighlight extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    if(this.state.noteExists)
-      this.updateHighlight()
-    else
-      this.postHighlight();
+    if(this.state.highlight.length === 0){
+      this.setState({snackbarMessage:"Please write highlight"}, this.handleClickSnackbar())
+    }
+    else{
+      if(this.state.noteExists)
+        this.updateHighlight()
+      else
+        this.postHighlight();
+    }
   };  
 
   renderTexField(){
@@ -165,12 +187,36 @@ class AddHighlight extends React.Component {
       <form className={classes.container} noValidate autoComplete="off">
       {this.renderTexField()}
         
-        <Button
+        <Button className={classes.submitbutton}
         onClick={this.handleSubmit}
         >
         Add Activity
         </Button>
       </form>
+      <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={this.state.open}
+          autoHideDuration={6000}
+          onClose={this.handleCloseSnackbar}
+          ContentProps={{
+            "aria-describedby": "message-id"
+          }}
+          message={<span id="message-id">{this.state.snackbarMessage}</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={classes.close}
+              onClick={this.handleCloseSnackbar}
+            >
+              <CloseIcon />
+            </IconButton>
+          ]}
+        />
       </div>
     );
   }

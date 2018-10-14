@@ -47,12 +47,16 @@ const styles = theme => ({
   },
   button: {
     marginBottom: "5%"
-  }
+  },
 });
 
 class ChangePassword extends Component {
   componentDidMount() {
-    Auth.StaffAuthorize(this);
+    if (this.props.role === "staff") {
+      Auth.StaffAuthorize(this);
+    } else if (this.props.role === "parent") {
+      Auth.ParentAuthorize(this);
+    }
     let url = window.location.href;
     // console.log(url);
     url = url.substring(0, url.length - 13);
@@ -112,7 +116,7 @@ class ChangePassword extends Component {
       return (
         <div>
           <Card>
-            <CardContent>
+            <CardContent >
               <h3>{this.state.status}</h3>
               <TextField
                 className={classNames(classes.margin, classes.textField)}

@@ -12,6 +12,7 @@ import LockIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+import './Login.css'
 
 const styles = theme => ({
   layout: {
@@ -100,7 +101,7 @@ class LogIn extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <React.Fragment >
         <CssBaseline />
         <main className={classes.layout}>
           <Paper className={classes.paper}>
@@ -133,21 +134,18 @@ class LogIn extends React.Component {
                   autoComplete="current-password"
                 />
               </FormControl>
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-                checked
-              /> */}
+              <div className="errormsg">{this.state.statusText}</div>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                color="primary"
+                color='primary'
                 onClick={this.handleSubmit}
                 className={classes.submit}
               >
                 Sign in
               </Button>
+              
             </form>
           </Paper>
         </main>
