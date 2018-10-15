@@ -102,53 +102,51 @@ class LogIn extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
-        <main className={classes.layout}>
-          <Paper className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
+      <main className={classes.layout}>
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={classes.form}>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <Input
+                id="email"
+                name="email"
+                onChange={this.handleChange}
+                value={this.state.email}
+                autoComplete="email"
+                autoFocus
+              />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <Input
+                onChange={this.handleChange}
+                value={this.state.password}
+                name="password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            </FormControl>
+            <div className="errormsg">{this.state.statusText}</div>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={this.handleSubmit}
+              className={classes.submit}
+            >
               Sign in
-            </Typography>
-            <form className={classes.form}>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="email">Email Address</InputLabel>
-                <Input
-                  id="email"
-                  name="email"
-                  onChange={this.handleChange}
-                  value={this.state.email}
-                  autoComplete="email"
-                  autoFocus
-                />
-              </FormControl>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Password</InputLabel>
-                <Input
-                  onChange={this.handleChange}
-                  value={this.state.password}
-                  name="password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
-              </FormControl>
-              <div className="errormsg">{this.state.statusText}</div>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                onClick={this.handleSubmit}
-                className={classes.submit}
-              >
-                Sign in
-              </Button>
-            </form>
-          </Paper>
-        </main>
-      </div>
+            </Button>
+          </form>
+        </Paper>
+      </main>
     );
   }
 }
