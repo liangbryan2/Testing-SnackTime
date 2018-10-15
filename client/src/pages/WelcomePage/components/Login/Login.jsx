@@ -54,6 +54,7 @@ class LogIn extends React.Component {
     statusText: ""
   };
 
+  //hi
   handleSubmit = e => {
     e.preventDefault();
     console.log("login props", this.props);
