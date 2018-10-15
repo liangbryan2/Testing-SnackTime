@@ -42,7 +42,7 @@ const styles = theme => ({
 class AddHighlight extends React.Component {
   state = {
     time: '',
-    highlight: '',
+    highlight: null,
     id: this.props.location.state.id,
     name:this.props.location.state.name,
     role:this.props.location.state.role,
@@ -119,7 +119,9 @@ class AddHighlight extends React.Component {
         console.log(resp);
         return resp.json();
       })
-      .then(resp => console.log(resp));
+      .then(resp => {
+        this.setState({snackbarMessage:"Highlight added"},this.handleClickSnackbar())
+      });
     }
   };
 
@@ -144,14 +146,16 @@ class AddHighlight extends React.Component {
         console.log(resp);
         return resp.json();
       })
-      .then(resp => console.log(resp));
+      .then(resp => {
+        this.setState({snackbarMessage:"Highlight added"},this.handleClickSnackbar())
+      });
     }
   };
 
 
   handleSubmit = event => {
     event.preventDefault();
-    if(this.state.highlight.length === 0){
+    if(this.state.highlight.trim() === ""){
       this.setState({snackbarMessage:"Please write highlight"}, this.handleClickSnackbar())
     }
     else{
@@ -176,8 +180,7 @@ class AddHighlight extends React.Component {
           margin="normal"
           variant="outlined"  
         />
-        <hr/>
-      </div>)
+        </div>)
   }
   render() {
     const { classes } = this.props;

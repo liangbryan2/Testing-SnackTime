@@ -42,8 +42,8 @@ const styles = theme => ({
 class AddNote extends React.Component {
   state = {
     time: '',
-    noteForStaff: '',
-    noteForParents: '',
+    noteForStaff: null,
+    noteForParents: null,
     id: this.props.location.state.id,
     name:this.props.location.state.name,
     role:this.props.location.state.role,
@@ -144,7 +144,9 @@ class AddNote extends React.Component {
         console.log(resp);
         return resp.json();
       })
-      .then(resp => console.log(resp));
+      .then(resp => {
+        this.setState({snackbarMessage:"Note added"},this.handleClickSnackbar())
+      });
     }
     else if(this.state.role === "parent"){
       fetch(`/api/parent/student/${this.state.id}/report`, {
@@ -160,7 +162,9 @@ class AddNote extends React.Component {
           console.log(resp);
           return resp.json();
         })
-        .then(resp => console.log(resp));
+        .then(resp => {
+          this.setState({snackbarMessage:"Note added"},this.handleClickSnackbar())
+        });
       }
   };
 
@@ -185,7 +189,9 @@ class AddNote extends React.Component {
         console.log(resp);
         return resp.json();
       })
-      .then(resp => console.log(resp));
+      .then(resp => {
+        this.setState({snackbarMessage:"Note added"},this.handleClickSnackbar())
+      });
     }
     else if (this.state.role === "parent"){
       console.log("inside update note parent")
@@ -199,16 +205,18 @@ class AddNote extends React.Component {
         console.log(resp);
         return resp.json();
       })
-      .then(resp => console.log(resp));
+      .then(resp => {
+        this.setState({snackbarMessage:"Note added"},this.handleClickSnackbar())
+      });
     }
   };
 
 
   handleSubmit = event => {
     event.preventDefault();
-    if(this.state.role === "parent" && this.state.noteForStaff.length ===0)
+    if(this.state.role === "parent" && this.state.noteForStaff.trim() ==="")
       this.setState({snackbarMessage:"Please write a note"}, this.handleClickSnackbar())
-    else if(this.state.role === "staff" && this.state.noteForParents.length ===0)
+    else if(this.state.role === "staff" && this.state.noteForParents.trim() ==="")
       this.setState({snackbarMessage:"Please write a note"}, this.handleClickSnackbar())
     else{
       if(this.state.noteExists)
@@ -232,7 +240,7 @@ class AddNote extends React.Component {
           margin="normal"
           variant="outlined"  
         />
-        <hr/>
+
       </div>)
     else if(this.state.role==="parent")
     return(<div>
@@ -246,7 +254,7 @@ class AddNote extends React.Component {
         margin="normal"
         variant="outlined"  
       />
-      <hr/>
+
     </div>)
   }
   render() {
