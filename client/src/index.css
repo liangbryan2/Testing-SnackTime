@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-body, html {
+body, html{
   margin: 0;
   padding: 0;
   font-family: "Roboto", "Oxygen",
@@ -9,7 +9,6 @@ body, html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: white;
-  color: #333;
   font-size: 1.15rem;
   min-height: 100vh;
 }
